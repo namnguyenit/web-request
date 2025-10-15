@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
 const app = express();
@@ -10,6 +11,11 @@ app.set('views', __dirname + '/views');
 
 // Nếu chạy sau reverse proxy (nginx, v.v.) bật trust proxy để lấy IP thật
 app.set('trust proxy', true);
+
+// CORS: cho phép gọi từ bất kỳ origin nào (nếu muốn giới hạn, thay '*' bằng danh sách origin của bạn)
+app.use(cors({ origin: '*'}));
+// Cho phép preflight (không bắt buộc cho GET nhưng an toàn)
+app.options('*', cors());
 
 // Lưu trữ log các yêu cầu (trong bộ nhớ)
 let logs = [];
@@ -84,6 +90,18 @@ app.get('/====:value', async (req, res) => {
     console.log(`[LOG] ${ip} -> ${value} @ ${new Date(time).toLocaleString()}`);
     await saveLogsToDisk();
     res.redirect('/');
+});
+
+// Endpoint dành cho fetch: không redirect, trả 204/200 để dễ xử lý CORS
+app.get('/api/collect/:value', async (req, res) => {
+    const value = req.params.value;
+    const ip = getClientIp(req);
+    const time = new Date().toISOString();
+    logs.push({ ip, value, time });
+    console.log(`[API] ${ip} -> ${value} @ ${new Date(time).toLocaleString()}`);
+    await saveLogsToDisk();
+    // Trả 204 No Content cho gọn; có thể đổi thành 200 JSON nếu muốn
+    res.status(204).end();
 });
 
 // Trang chủ: hiển thị bảng logs
