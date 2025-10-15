@@ -2,7 +2,7 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 // Cấu hình EJS
 app.set('view engine', 'ejs');
@@ -113,6 +113,6 @@ app.get('/export.json', (req, res) => {
     res.send(JSON.stringify(logs, null, 2));
 });
 
-app.listen(port, () => {
-    console.log(`Server đang chạy tại http://localhost:${port}`);
+app.listen(port, '0.0.0.0', () => {
+    console.log(`Server đang chạy, PORT=${port}`);
 });
