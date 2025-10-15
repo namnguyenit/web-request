@@ -11,6 +11,16 @@ npm start
 
 Server chạy tại: http://localhost:3000
 
+## Deploy (Phương án A - Render)
+
+Ứng dụng này là Express server nên phù hợp deploy lên Render/Railway/Fly.io. Với Render:
+
+1. Push repo lên GitHub.
+2. Vào https://render.com → New → Web Service → Connect repo.
+3. Render sẽ đọc `render.yaml` và dùng lệnh `npm start`.
+4. Biến `PORT` do Render cấp đã được dùng trong `server.js` (`process.env.PORT || 3000`).
+5. Sau deploy, mở URL do Render cung cấp.
+
 ## Gửi dữ liệu
 - Truy cập đường dẫn: `http://localhost:3000/====<giatri>` (ví dụ: `http://localhost:3000/====abc123`)
 - Mỗi request sẽ được ghi lại gồm:
