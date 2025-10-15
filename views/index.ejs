@@ -118,7 +118,7 @@
             <% page.forEach(p => { %>
               <tr>
                 <td><%= p.id || '-' %></td>
-                <td><%= dayjs(p.ts).format('YYYY-MM-DD HH:mm:ss') %></td>
+                <td><%= dayjs(p.ts).tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD HH:mm:ss') %></td>
                 <td>
                   <div><code><%= p.url %></code></div>
                   <details>
@@ -165,7 +165,7 @@
             <% all.forEach(a => { %>
               <tr>
                 <td><%= a.id || '-' %></td>
-                <td><%= dayjs(a.ts).format('YYYY-MM-DD HH:mm:ss') %></td>
+                <td><%= dayjs(a.ts).tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD HH:mm:ss') %></td>
                 <td>
                   <div><code><%= a.host %></code></div>
                   <details>
